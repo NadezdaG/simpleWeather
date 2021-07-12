@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Simple App</title>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+	<script src="main.js" defer></script>
+  </head>
+  <body>
+    <noscript>
+      <strong
+        >Sorry but Vue Calculator doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      >
+    </noscript>
+    <div id="app">
+		<header>
+			<form>
+				<input type="text" value="" />
+			</form>
+		</header>
+		<section>
+			<div class="container">
+				<input value="imperial" id="units-imperial" type="radio" v-model="units" />
+				<label for="units-imperial">Imperial</label>
+				<input value="metric" id="units-imperial" type="radio" v-model="units" />
+				<label for="units-metric">Metric</label>
+				<div v-for="city in cities">
+					<h2>{{city.title}}</h2>
+					{{city.temp}} {{tempText}}
+					{{city.weather}}
+				</div>
+			</div>
+		</section>
+		<footer>
+			<div class="container"></div>
+		</footer>
+	</div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
