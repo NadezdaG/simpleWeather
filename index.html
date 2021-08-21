@@ -19,8 +19,11 @@
     <div id="app">
 		<header>
 			<form>
-				<input type="text" value="" />
+				<input type="text" v-model="typedText" />
 			</form>
+			<ul class="dropdown">
+				<li v-for="city in filteredCities" v-on:click="addCity(city)">{{city}}</li>
+			</ul>
 		</header>
 		<section>
 			<div class="container">
@@ -28,10 +31,14 @@
 				<label for="units-imperial">Imperial</label>
 				<input value="metric" id="units-imperial" type="radio" v-model="units" />
 				<label for="units-metric">Metric</label>
-				<div v-for="city in cities">
+				<div v-for="(city,index) in cities">
+					<button v-on:click="removeCity(index)">x</button>
 					<h2>{{city.title}}</h2>
 					{{city.temp}} {{tempText}}
 					{{city.weather}}
+					<span v-bind:data-timezone="city.timezone" class="clock">
+						{{city.hours}}:{{city.minutes}}
+					</span>
 				</div>
 			</div>
 		</section>
@@ -39,6 +46,5 @@
 			<div class="container"></div>
 		</footer>
 	</div>
-    <!-- built files will be auto injected -->
   </body>
 </html>
