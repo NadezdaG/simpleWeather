@@ -7,19 +7,7 @@
         v-model="typedText"
         placeholder="Type the city"
       />
-      <ul class="dropdown simpleWeather__dropdown">
-        <li
-          v-for="city in filteredCities"
-          v-on:click="addCity(city)"
-          v-bind:key="city"
-        >
-          {{ city }}
-        </li>
-      </ul>
-    </header>
-    <section>
-      <div class="container">
-        <div class="simpleWeather__units">
+      <div class="simpleWeather__units">
           <input
             value="imperial"
             id="units-imperial"
@@ -35,12 +23,30 @@
           />
           <label for="units-metric">Metric</label>
         </div>
-        <div class="simpleWeather__card"  v-for="(city, index) in cities" v-bind:key="index">
-          <button v-on:click="removeCity(index)">x</button>
-          <h2>{{ city.title }}</h2>
-          {{ city.temp }} {{ tempText }}
-          {{ city.weather }}
-          <span class="clock"> {{ city.hours }}:{{ city.minutes }} </span>
+      <ul class="dropdown simpleWeather__dropdown">
+        <li
+          v-for="city in filteredCities"
+          v-on:click="addCity(city)"
+          v-bind:key="city"
+        >
+          {{ city }}
+        </li>
+      </ul>
+    </header>
+    <section>
+      <div class="container">
+        <div class="simpleWeather__cards">
+          <div
+            class="simpleWeather__card"
+            v-for="(city, index) in cities"
+            v-bind:key="index"
+          >
+            <button v-on:click="removeCity(index)">x</button>
+            <h2>{{ city.title }}</h2>
+            <div class="temp">{{ city.temp }}{{ tempText }}</div>
+            <div class="weather">{{ city.weather }}</div>
+            <span class="clock"> {{ city.hours }}:{{ city.minutes }} </span>
+          </div>
         </div>
       </div>
     </section>
@@ -68,7 +74,6 @@ export default {
   },
   watch: {
     units(newUnit) {
-      alert("a");
       if (newUnit === "metric") {
         this.cities.forEach((city) => {
           city.temp = Math.round(((city.temp - 32) * 5) / 9);
@@ -116,7 +121,7 @@ export default {
     },
 
     removeCity(remove) {
-      this.cities = this.cities.splice(remove, 1);
+      this.cities.splice(remove, 1);
     },
 
     updateCity(city, index) {
@@ -172,3 +177,93 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@use "./assets/scss/reset.scss";
+@use "./assets/scss/_variables.scss";
+@use "./assets/scss/_typography.scss";
+@use "./assets/scss/_global.scss";
+.simpleWeather {
+  padding: 2em;
+  header {
+    width:100%;
+  display: grid; 
+  grid-auto-rows: 1fr; 
+  grid-template-columns: 1fr 200px; 
+  grid-template-rows: 1fr; 
+  gap: 0 0; 
+  grid-template-areas: 
+    "input units"; 
+  }
+  &__input {
+   grid-area: input;
+    padding: 6px 15px;
+    border: none;
+    &:focus {
+      outline: 0;
+    }
+  }
+  &__units {
+    grid-area:units;
+    background-color:variables.$color-melon;
+  }
+  &__dropdown {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    background-color: variables.$color-bone;
+    list-style: none;
+    padding: 0.5em 0;
+    margin: 0;
+    max-height: 50%;
+    overflow-y: scroll;
+    li {
+      padding: 0.5em 1em;
+      cursor: pointer;
+      &:hover {
+        background-color: variables.$color-melon;
+      }
+    }
+  }
+  &__cards {
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1em 1em;
+    grid-template-areas: ". . . .";
+    width: 100%;
+    height: 100%;
+  }
+  &__card {
+    background-color: variables.$color-white;
+    padding: 2em;
+    position: relative;
+    text-align:center;
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background:none;
+      border:none;
+      cursor:pointer;
+      font-size:1.2em;
+    }
+    h2 {
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 1em;
+    }
+    .temp {
+      font-size:2em;
+    }
+
+    .clock {
+      display:inline-block;
+      padding: 0.5em;
+      background-color: variables.$color-bone;
+      margin-top:1em;
+    }
+  }
+}
+</style>
