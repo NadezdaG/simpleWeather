@@ -1,4 +1,6 @@
-# simpleweather2
+This project is created for learning vue.
+Weather app, with city selector and card for each selected city.
+Openweather API is used.
 
 ## Project setup
 ```
