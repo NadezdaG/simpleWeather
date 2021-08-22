@@ -8,21 +8,13 @@
         placeholder="Type the city"
       />
       <div class="simpleWeather__units">
-          <input
-            value="imperial"
-            id="units-imperial"
-            type="radio"
-            v-model="units"
-          />
-          <label for="units-imperial">Imperial</label>
-          <input
-            value="metric"
-            id="units-imperial"
-            type="radio"
-            v-model="units"
-          />
-          <label for="units-metric">Metric</label>
-        </div>
+        <button :class="{ active: celsius }" v-on:click="changeUnits(true)">
+          °C
+        </button>
+        <button :class="{ active: !celsius }" v-on:click="changeUnits(false)">
+          °F
+        </button>
+      </div>
       <ul class="dropdown simpleWeather__dropdown">
         <li
           v-for="city in filteredCities"
@@ -43,7 +35,7 @@
           >
             <button v-on:click="removeCity(index)">x</button>
             <h2>{{ city.title }}</h2>
-            <div class="temp">{{ city.temp }}{{ tempText }}</div>
+            <div class="temp">{{ city.temp }}°</div>
             <div class="weather">{{ city.weather }}</div>
             <span class="clock"> {{ city.hours }}:{{ city.minutes }} </span>
           </div>
@@ -64,26 +56,23 @@ export default {
   data() {
     return {
       key: "44cc22073a3eaf46a220bb8ddffa8517",
-      units: "metric",
+      celsius: true,
       times: [],
-      tempText: "° C",
       allCities: [],
       typedText: "",
       cities: [],
     };
   },
   watch: {
-    units(newUnit) {
-      if (newUnit === "metric") {
+    celsius(newUnit) {
+      if (newUnit === true) {
         this.cities.forEach((city) => {
           city.temp = Math.round(((city.temp - 32) * 5) / 9);
         });
-        this.tempText = "° C";
       } else {
         this.cities.forEach((city) => {
           city.temp = Math.round((city.temp * 9) / 5 + 32);
         });
-        this.tempText = "° F";
       }
     },
     cities: {
@@ -94,6 +83,10 @@ export default {
     },
   },
   methods: {
+    changeUnits(flag) {
+      this.celsius = flag;
+    },
+
     loadCities() {
       const url = "https://restcountries.eu/rest/v2/all";
       axios
@@ -135,7 +128,7 @@ export default {
         .then((response) => {
           let date = new Date();
           this.cities[index].temp =
-            this.units === "metric"
+            this.celsius === true
               ? Math.round(((response.data.main.temp - 32) * 5) / 9)
               : response.data.main.temp;
           this.cities[index].weather = response.data.weather[0].main;
@@ -186,17 +179,17 @@ export default {
 .simpleWeather {
   padding: 2em;
   header {
-    width:100%;
-  display: grid; 
-  grid-auto-rows: 1fr; 
-  grid-template-columns: 1fr 200px; 
-  grid-template-rows: 1fr; 
-  gap: 0 0; 
-  grid-template-areas: 
-    "input units"; 
+    width: 100%;
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr;
+    gap: 0 0;
+    grid-template-areas: "input units";
+    margin-bottom: 2em;
   }
   &__input {
-   grid-area: input;
+    grid-area: input;
     padding: 6px 15px;
     border: none;
     &:focus {
@@ -204,8 +197,18 @@ export default {
     }
   }
   &__units {
-    grid-area:units;
-    background-color:variables.$color-melon;
+    grid-area: units;
+    background-color: variables.$color-melon;
+    border: 3px solid white;
+    button {
+      height: 100%;
+      background-color: variables.$color-melon;
+      border: none;
+      cursor: pointer;
+      &.active {
+        background-color: variables.$color-bittersweet;
+      }
+    }
   }
   &__dropdown {
     display: block;
@@ -239,15 +242,15 @@ export default {
     background-color: variables.$color-white;
     padding: 2em;
     position: relative;
-    text-align:center;
+    text-align: center;
     button {
       position: absolute;
       right: 0;
       top: 0;
-      background:none;
-      border:none;
-      cursor:pointer;
-      font-size:1.2em;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2em;
     }
     h2 {
       text-align: center;
@@ -255,14 +258,14 @@ export default {
       margin-bottom: 1em;
     }
     .temp {
-      font-size:2em;
+      font-size: 2em;
     }
 
     .clock {
-      display:inline-block;
+      display: inline-block;
       padding: 0.5em;
       background-color: variables.$color-bone;
-      margin-top:1em;
+      margin-top: 1em;
     }
   }
 }
