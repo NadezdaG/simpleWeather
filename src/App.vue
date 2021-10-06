@@ -1,4 +1,9 @@
 <template>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+/>
+
   <div class="simpleWeather">
     <header>
       <input
@@ -21,36 +26,43 @@
           v-on:click="addCity(city)"
           v-bind:key="city"
         >
-          {{ city }}
+          {{ city.name }}
+          <span> {{ city.country }}</span>
         </li>
       </ul>
     </header>
     <section>
       <div class="container">
-        <div class="simpleWeather__cards">
-          <div
-            class="simpleWeather__card"
-            v-for="(city, index) in cities"
-            v-bind:key="index"
-          >
-            <button v-on:click="removeCity(index)">x</button>
-            <h2>{{ city.title }}</h2>
-            <div class="temp">{{ city.temp }}°</div>
-            <div class="weather">{{ city.weather }}</div>
-            <span class="clock"> {{ city.hours }}:{{ city.minutes }} </span>
+          <!-- Additional required wrapper -->
+          <div class="simpleWeather__cards">
+            <!-- Slides -->
+            <div
+              class="simpleWeather__card"
+              v-for="(city, index) in cities"
+              v-bind:key="index"
+            >
+              <button v-on:click="removeCity(index)">x</button>
+              <h2>
+                {{ city.title }}<span>({{ city.country }})</span>
+              </h2>
+              <div class="temp">{{ city.temp }}°</div>
+              <div class="weather">{{ city.weather }}</div>
+              <span class="clock"> {{ city.hours }}:{{ city.minutes }} </span>
+            </div>
           </div>
-        </div>
       </div>
     </section>
     <footer>
-      <div class="container"></div>
+      <div class="container">
+        App created for learning purpose. 
+      </div>
     </footer>
   </div>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
 const axios = require("axios");
+
 export default {
   name: "App",
   data() {
@@ -88,20 +100,15 @@ export default {
     },
 
     loadCities() {
-      const url = "https://restcountries.eu/rest/v2/all";
-      axios
-        .get(url)
-        .then((response) => {
-          this.allCities = response.data.map((city) => city.capital);
-        })
-        .catch((error) => {
-          console.error("There was an error!", error.message);
-        });
+      this.allCities = require("./assets/cities.json");
     },
 
     addCity(city) {
       this.cities.push({
-        title: city,
+        title: city.name,
+        country: city.country,
+        lat: city.lat,
+        lng: city.lng,
         time: "",
         temp: "",
         hours: 0,
@@ -118,14 +125,19 @@ export default {
     },
 
     updateCity(city, index) {
+      console.log(city);
       const url =
-        "https://api.openweathermap.org/data/2.5/weather?q=" +
-        city +
-        "&units=imperial&appid=" +
+        "http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" +
+        city.lat +
+        "&lon=" +
+        city.lng +
+        "&appid=" +
         this.key;
+
       axios
         .get(url)
         .then((response) => {
+          console.log(response);
           let date = new Date();
           this.cities[index].temp =
             this.celsius === true
@@ -162,7 +174,7 @@ export default {
     filteredCities() {
       if (this.typedText.length > 1) {
         let regex = new RegExp(this.typedText, "i");
-        return this.allCities.filter((city) => city.match(regex));
+        return this.allCities.filter((city) => city.name.match(regex));
       } else {
         return [];
       }
@@ -229,14 +241,23 @@ export default {
     }
   }
   &__cards {
-    display: grid;
+    display: flex;
+    width: 100%;
+    height: 100%;
+display: grid;
     grid-auto-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 1em 1em;
+    grid-template-areas: ". ";
+    @media all and (min-width:768px) {
+      grid-auto-rows: 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr;
     gap: 1em 1em;
     grid-template-areas: ". . . .";
-    width: 100%;
-    height: 100%;
+    }
+    
   }
   &__card {
     background-color: variables.$color-white;
@@ -256,6 +277,7 @@ export default {
       text-align: center;
       text-transform: uppercase;
       margin-bottom: 1em;
+      font-size:1em;
     }
     .temp {
       font-size: 2em;
@@ -263,10 +285,15 @@ export default {
 
     .clock {
       display: inline-block;
-      padding: 0.5em;
+      padding: 5px;
       background-color: variables.$color-bone;
       margin-top: 1em;
+          letter-spacing: 5px;
     }
+  }
+  footer {
+    color:white;
+    margin-top:10px;
   }
 }
 </style>
