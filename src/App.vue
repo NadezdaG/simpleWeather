@@ -35,7 +35,6 @@
       <div class="container">
           <!-- Additional required wrapper -->
           <div class="simpleWeather__cards">
-            <!-- Slides -->
             <div
               class="simpleWeather__card"
               v-for="(city, index) in cities"
