@@ -126,7 +126,7 @@ export default {
     updateCity(city, index) {
       console.log(city);
       const url =
-        "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" +
+        "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" +
         city.lat +
         "&lon=" +
         city.lng +
