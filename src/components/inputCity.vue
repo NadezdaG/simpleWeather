@@ -9,7 +9,7 @@
     <li
       v-for="city in filteredCities"
       v-bind:key="city"
-      @click="clickHandler(city)"
+      @click="addCity(city)"
     >
       {{ city.name }}
       <span> {{ city.country }}</span>
@@ -32,8 +32,21 @@ export default {
       console.log("load CITIES");
       this.allCities = require("../assets/cities.json");
     },
-    clickHandler(city) {
-      this.$emit("addCity", city);
+     addCity(city) {
+      console.log("run parrent f");
+      this.$parent.cities.push({
+        title: city.name,
+        country: city.country,
+        lat: city.lat,
+        lng: city.lng,
+        time: "",
+        temp: "",
+        hours: 0,
+        minutes: 0,
+        weather: "",
+        timezone: 0,
+      });
+      this.$parent.updateCity(city, this.$parent.cities.length - 1);
       this.typedText = "";
     },
   },
