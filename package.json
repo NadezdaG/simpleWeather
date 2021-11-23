@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "prettier --write 'src/**/**/*.scss' 'src/**/*.js' 'src/*.js' 'src/*.vue' 'src/**/*.js'; vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "format": "prettier --write 'src/**/**/*.scss' 'src/**/*.js' 'src/*.js' 'src/*.vue' 'src/**/*.js'"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -20,6 +21,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
+    "prettier": "2.4.1",
     "sass": "^1.38.0",
     "sass-loader": "10.1.1",
     "vue-loader-v16": "^16.0.0-beta.5.4"

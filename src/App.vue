@@ -32,9 +32,7 @@
       </div>
     </section>
     <footer>
-      <div class="container">
-        App created for learning purpose.
-      </div>
+      <div class="container">App created for learning purpose.</div>
     </footer>
   </div>
 </template>
@@ -132,7 +130,7 @@ export default {
       });*/
     },
   },
-  mounted: function() {
+  mounted: function () {
     if (localStorage.cities) {
       this.cities = JSON.parse(localStorage.getItem("cities") || "[]");
     }
