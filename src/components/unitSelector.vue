@@ -35,7 +35,7 @@ export default {
       background-color: variables.$color-white;
       border: none;
       cursor: pointer;
-      min-width:80px;
+      min-width:55px;
       color: variables.$color-black;
       &:first-child {
         border-top-left-radius: 10px;
