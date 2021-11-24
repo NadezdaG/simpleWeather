@@ -1,6 +1,5 @@
-This project is created for learning vue.
+This project is created for learning basic vue.
 Weather app, with city selector and card for each selected city.
-Openweather API is used.
 
 ## Project setup
 ```
