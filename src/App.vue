@@ -1,19 +1,26 @@
 <template>
-  <div class="simpleWeather">
-    <header>
-      <inputCity></inputCity>
-      <unitSelector :celsius="celsius"></unitSelector>
-    </header>
-    <section>
-      <div class="container">
-        <!-- Additional required wrapper -->
-        <weatherCards></weatherCards>
-      </div>
-    </section>
-    <footer>
-      <div class="container">App created for learning purpose.</div>
-    </footer>
-  </div>
+  <header>
+    <inputCity></inputCity>
+    <unitSelector :celsius="celsius"></unitSelector>
+  </header>
+  <section>
+    <div class="container">
+      <!-- Additional required wrapper -->
+      <weatherCards></weatherCards>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      App developed by Nadezda G as a part of a Vue learning Journey.
+      <a
+        href="https://github.com/NadezdaG/simpleWeather"
+        target="_blank"
+        title="preview code"
+        >GitHub</a
+      >
+    </div>
+  </footer>
 </template>
 
 <script>
@@ -61,7 +68,6 @@ export default {
       axios
         .get(url)
         .then((response) => {
-          console.log(response);
           this.cities[index].temp =
             this.celsius === true
               ? response.data.current.temp_c
@@ -74,6 +80,7 @@ export default {
         .catch((error) => {
           console.error("There was an error!", error.message);
         });
+      localStorage.setItem("cities", JSON.stringify(this.cities));
     },
 
     updateTime() {
@@ -86,7 +93,7 @@ export default {
     if (localStorage.cities) {
       this.cities = JSON.parse(localStorage.getItem("cities") || "[]");
     }
-    this.cities.forEach((city, index) => this.updateCity(city.title, index));
+    this.cities.forEach((city, index) => this.updateCity(city, index));
     setInterval(this.updateTime, 10000);
   },
 };
@@ -97,22 +104,4 @@ export default {
 @use "./assets/scss/_variables.scss";
 @use "./assets/scss/_typography.scss";
 @use "./assets/scss/_global.scss";
-.simpleWeather {
-  padding: 2em;
-  header {
-    width: 100%;
-    display: grid;
-    grid-auto-rows: 1fr;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 1fr;
-    gap: 0 0;
-    grid-template-areas: "input units";
-    margin-bottom: 2em;
-  }
-
-  footer {
-    color: white;
-    margin-top: 10px;
-  }
-}
 </style>

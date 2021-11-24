@@ -11,7 +11,7 @@
             </h2>
             <div class="temp">{{ city.temp }}°</div>
             <div class="weather">{{ city.weather }}</div>
-            <span class="clock"> {{ new Date(city.localTime*1000).getHours() }}:{{ new Date(city.localTime*1000).getMinutes() }} </span>
+            <span class="clock"> Local time: {{ new Date(city.localTime*1000).getHours() }}:{{ new Date(city.localTime*1000).getMinutes() }}</span>
           </div>
         </div>
 </template>
@@ -41,28 +41,24 @@ export default {
     display: flex;
     width: 100%;
     height: 100%;
-    display: grid;
-    grid-auto-rows: 1fr;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    gap: 1em 1em;
-    grid-template-areas: ". ";
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+    
     @media all and (min-width: 768px) {
-      grid-auto-rows: 1fr;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 1fr;
-      gap: 1em 1em;
-      grid-template-areas: ". . . .";
     }
   
   &__card {
     background-color: variables.$color-white;
-    padding: 2em;
+    padding: 2em 2em 1em;
     position: relative;
     text-align: center;
+    border-radius: 10px;
+    flex: 1;
     button {
       position: absolute;
-      right: 0;
+      right: 5px;
       top: 0;
       background: none;
       border: none;
@@ -73,18 +69,32 @@ export default {
       text-align: center;
       text-transform: uppercase;
       margin-bottom: 1em;
-      font-size: 1em;
+      font-size: 1.2em;
+
     }
+
     .temp {
       font-size: 2em;
+    }
+
+    .weather {
+      text-transform: uppercase;
     }
 
     .clock {
       display: inline-block;
       padding: 5px;
-      background-color: variables.$color-bone;
       margin-top: 1em;
-      letter-spacing: 5px;
+      font-size: 0.8em;
+      opacity:0.8;
+    }
+
+    &:hover {
+      background-color: variables.$color-blue;
+      color: variables.$color-white;
+      button {
+        color: variables.$color-white;
+      }
     }
   }
 }

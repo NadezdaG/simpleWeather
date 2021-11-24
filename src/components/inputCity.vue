@@ -33,7 +33,6 @@ export default {
       this.allCities = require("../assets/cities.json");
     },
      addCity(city) {
-      console.log("run parrent f");
       this.$parent.cities.push({
         title: city.name,
         country: city.country,
@@ -46,6 +45,7 @@ export default {
         weather: "",
         timezone: 0,
       });
+      
       this.$parent.updateCity(city, this.$parent.cities.length - 1);
       this.typedText = "";
     },
@@ -70,10 +70,13 @@ export default {
 @use "../assets/scss/reset.scss";
 @use "../assets/scss/_variables.scss";
 @use "../assets/scss/_global.scss";
+
 .inputCity {
   grid-area: input;
-  padding: 6px 15px;
+  padding: 10px 0px;
+  background-color: variables.$color-bone;
   border: none;
+  border-bottom:1px solid rgba(variables.$color-raw,0.2);
   &:focus {
     outline: 0;
   }
@@ -82,7 +85,7 @@ export default {
     display: block;
     position: absolute;
     z-index: 3;
-    background-color: variables.$color-bone;
+    background-color: variables.$color-white;
     list-style: none;
     padding: 0.5em 0;
     margin: 36px 0px 0px;
@@ -92,7 +95,7 @@ export default {
       padding: 0.5em 1em;
       cursor: pointer;
       &:hover {
-        background-color: variables.$color-melon;
+        background-color: variables.$color-bone;
       }
     }
   }
