@@ -58,7 +58,7 @@ export default {
     updateCity(city, index) {
       console.log(city);
       const url =
-        "http://api.weatherapi.com/v1/current.json?key=" +
+        "https://api.weatherapi.com/v1/current.json?key=" +
         this.key +
         "&q=" +
         city.lat +
