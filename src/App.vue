@@ -18,7 +18,7 @@
         target="_blank"
         title="preview code"
         >GitHub</a
-      >
+      ><br />Powered by <a href="https://www.weatherapi.com/" target="_blank" title="Free Weather API">WeatherAPI.com</a>
     </div>
   </footer>
 </template>
