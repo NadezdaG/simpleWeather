@@ -56,6 +56,7 @@ export default {
     text-align: center;
     border-radius: 10px;
     flex: 1;
+    max-width: 300px;
     button {
       position: absolute;
       right: 5px;

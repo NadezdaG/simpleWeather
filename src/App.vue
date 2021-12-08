@@ -12,7 +12,7 @@
 
   <footer>
     <div class="container">
-      App developed by Nadezda G as a part of a Vue learning Journey.
+      App developed by <a href="https://gurska.dev" title="Nadezda Gurska web developer" target="_blank">Nadezda G</a> as a part of a Vue learning Journey.
       <a
         href="https://github.com/NadezdaG/simpleWeather"
         target="_blank"
